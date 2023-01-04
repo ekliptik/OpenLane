@@ -305,8 +305,8 @@ if { [info exists ::env(SYNTH_LATCH_MAP)] && [file exists $::env(SYNTH_LATCH_MAP
 }
 
 dfflibmap -liberty $dfflib
+show -format dot -prefix $::env(synthesis_tmpfiles)/pre_save
 tee -o "$::env(synth_report_prefix)_dff.stat" stat
-
 proc run_strategy {output script strategy_name {postfix_with_strategy 0}} {
     upvar clock_period clock_period
     upvar sdc_file sdc
@@ -318,12 +318,13 @@ proc run_strategy {output script strategy_name {postfix_with_strategy 0}} {
 
     design -load checkpoint
 
+    show -format dot -prefix $::env(synthesis_tmpfiles)/pre_abc
     abc -D "$clock_period" \
         -constr "$sdc" \
         -liberty "$lib" \
         -script "$script" \
         -showtmp
-
+    show -format dot -prefix $::env(synthesis_tmpfiles)/post_abc
     setundef -zero
 
     hilomap -hicell {*}$::env(SYNTH_TIEHI_PORT) -locell {*}$::env(SYNTH_TIELO_PORT)
@@ -340,6 +341,7 @@ proc run_strategy {output script strategy_name {postfix_with_strategy 0}} {
     }
 
     write_verilog -noattr -noexpr -nohex -nodec -defparam $output
+    show -format dot -prefix $::env(synthesis_tmpfiles)/post_strat
     design -reset
 }
 design -save checkpoint

@@ -33,8 +33,14 @@ if { $::env(GRT_ALLOW_CONGESTION) == 1 } {
     lappend arg_list -allow_congestion
 }
 puts $arg_list
+set visnet clknet_5_27_0_clk_sys
+# global_route_debug -st -net "$visnet"
+# global_route_debug -rst -net "$visnet"
+# global_route_debug -tree2D -net "$visnet"
+# global_route_debug -tree3D -net "$visnet"
 global_route {*}$arg_list
-
+# save_image "watsteiner" -resolution 0.1 -display_option {Layers/met1 false} -display_option {Layers/via false} -display_option {Layers/met2 false} -display_option {Layers/via2 false} -display_option {Layers/met3 false}  -display_option {Layers/via3 false}  -display_option {Layers/met4 false} -display_option {Layers/via4 false} -display_option {Layers/met5 false} -display_option {Rows false}
+# gui::pause
 if { ($::env(DIODE_INSERTION_STRATEGY) == 3) || ($::env(DIODE_INSERTION_STRATEGY) == 6) } {
     repair_antennas "$::env(DIODE_CELL)" -iterations $::env(GRT_ANT_ITERS)
     check_placement

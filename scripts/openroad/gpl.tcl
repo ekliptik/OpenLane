@@ -66,6 +66,8 @@ set cell_pad_side [expr $::env(GPL_CELL_PADDING) / 2]
 lappend arg_list -pad_right $cell_pad_side
 lappend arg_list -pad_left $cell_pad_side
 
+# lappend arg_list -display_option {* false}
+# gpl::global_placement_debug -pause 41777 -update 1 -initial
 global_placement {*}$arg_list
 
 write

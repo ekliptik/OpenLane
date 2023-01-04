@@ -16,12 +16,17 @@ read
 
 source $::env(SCRIPTS_DIR)/openroad/common/dpl_cell_pad.tcl
 
+# gui::pause
+detailed_placement_debug -instance vccd1
+
+# save_image "global" -resolution 0.3 -display_option {Layers/met1 false} -display_option {Layers/via false} -display_option {Layers/met2 false} -display_option {Layers/via2 false} -display_option {Layers/met3 false}  -display_option {Layers/via3 false}  -display_option {Layers/met4 false} -display_option {Layers/via4 false} -display_option {Layers/met5 false} -display_option {Rows true}
 detailed_placement\
     -max_displacement [subst { $::env(PL_MAX_DISPLACEMENT_X) $::env(PL_MAX_DISPLACEMENT_Y) }]
 
 if { [info exists ::env(PL_OPTIMIZE_MIRRORING)] && $::env(PL_OPTIMIZE_MIRRORING) } {
     optimize_mirroring
 }
+# save_image "detailed" -resolution 0.3 -display_option {Layers/met1 false} -display_option {Layers/via false} -display_option {Layers/met2 false} -display_option {Layers/via2 false} -display_option {Layers/met3 false}  -display_option {Layers/via3 false}  -display_option {Layers/met4 false} -display_option {Layers/via4 false} -display_option {Layers/met5 false} -display_option {Rows true}
 
 if { [catch {check_placement -verbose} errmsg] } {
     puts stderr $errmsg
